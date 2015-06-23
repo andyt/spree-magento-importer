@@ -1,0 +1,3 @@
+module SpreeMagentoImporter
+  VERSION = '0.1'
+end
