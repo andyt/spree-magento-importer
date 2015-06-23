@@ -1,6 +1,7 @@
-# Spree::Magento::Importer
+# Spree Magento Importer
 
-TODO: Write a gem description
+Having investigated other avenues (including DataShift::Spree, Wombat), sadly I find myself in the position of writing an importer gem to load data from a Magento CSV export into Spree.
+
 
 ## Installation
 
@@ -20,7 +21,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Currently there are working specs with fixtures for a proof-of-concept product importer, but no mechanism for use with a specific Magento export file.
+
 
 ## Contributing
 
