@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'integration/spec_helper'
 require 'spree_magento_importer/magento_product'
 
 module SpreeMagentoImporter
