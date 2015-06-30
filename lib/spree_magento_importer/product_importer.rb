@@ -30,7 +30,7 @@ module SpreeMagentoImporter
     end
 
     def formatter
-      proc { |_severity, _datetime, _progname, msg| msg }
+      proc { |_severity, _datetime, _progname, msg| "msg\n" }
     end
   end
 end
