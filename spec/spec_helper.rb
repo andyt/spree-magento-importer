@@ -1,5 +1,3 @@
-require 'spree/core'
-
 RSpec.configure do |config|
   config.color = true
   config.fail_fast = ENV['FAIL_FAST'] || false
