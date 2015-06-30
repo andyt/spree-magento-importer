@@ -19,3 +19,11 @@ task :test_app do
   ENV['LIB_NAME'] = 'spree/core'
   Rake::Task['common:test_app'].invoke
 end
+
+task :console do
+  require 'irb'
+  require 'irb/completion'
+  require 'spree_magento_importer'
+  ARGV.clear
+  IRB.start
+end
