@@ -10,8 +10,8 @@ module SpreeMagentoImporter
         instance_variable_set("@#{k}", v)
       end
 
-      fail ArgumentError, "Unhandled type: #{@type.inspect}" unless @type == 'simple'
-      fail ArgumentError, "Unhandled visibility: #{@visibility.inspect}" unless @visibility == 'Catalog, Search'
+      fail ArgumentError, "#{@sku}: unhandled type #{@type.inspect}" unless @type == 'simple'
+      fail ArgumentError, "#{@sku}: unhandled visibility #{@visibility.inspect}" unless @visibility == 'Catalog, Search'
     end
 
     def spree_product_params

@@ -35,6 +35,16 @@ module SpreeMagentoImporter
           expect(products.count).to eq 1
         end
       end
+
+      context 'for a grouped product' do
+        let(:fixture) { File.expand_path('../../../fixtures/one_grouped_product.csv', __FILE__) }
+
+        it 'handles exceptions and imports no products' do
+          importer.import
+
+          expect(products.count).to eq 0
+        end
+      end
     end
   end
 end

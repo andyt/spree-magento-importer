@@ -1,4 +1,6 @@
 require 'csv'
+require 'logger'
+
 require 'spree_magento_importer/magento_product'
 
 module SpreeMagentoImporter
@@ -11,9 +13,24 @@ module SpreeMagentoImporter
 
     def import
       CSV.foreach(@file, headers: true).with_index do |row, _index|
-        magento_product = MagentoProduct.new(row.to_h)
-        @backend.import(magento_product.spree_product_params, magento_product.spree_product_options)
+        begin
+          magento_product = MagentoProduct.new(row.to_h)
+        rescue ArgumentError => e
+          logger.warn e.message
+        else
+          @backend.import(magento_product.spree_product_params, magento_product.spree_product_options)
+        end
       end
+    end
+
+    private
+
+    def logger
+      @logger ||= Logger.new(STDOUT).tap { |l| l.formatter = formatter }
+    end
+
+    def formatter
+      proc { |_severity, _datetime, _progname, msg| msg }
     end
   end
 end
