@@ -12,6 +12,8 @@ module SpreeMagentoImporter
       @products ||= Spree::Product.all
     end
 
+    let(:product) { products.first }
+
     describe '#import' do
       context 'for a simple product' do
         let(:fixture) { File.expand_path('../../../fixtures/one_simple_product.csv', __FILE__) }
@@ -21,7 +23,6 @@ module SpreeMagentoImporter
 
           expect(products.count).to eq 1
 
-          product = products.first
           expect(product.name).to eq 'Shimano Saint M820 / M825 Single Crank Arms'
           expect(product.msrp).to eq BigDecimal.new('189.99')
           expect(product.price).to eq BigDecimal.new('151.99')

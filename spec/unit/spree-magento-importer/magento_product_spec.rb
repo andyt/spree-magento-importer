@@ -3,17 +3,20 @@ require 'spree_magento_importer/magento_product'
 
 module SpreeMagentoImporter
   describe MagentoProduct, :dummy_app, db: :isolate do
+    let(:magento_product) { MagentoProduct.new(attributes) }
+
     context 'with a simple product' do
-      let(:magento_product) do
-        MagentoProduct.new(
+      let(:attributes) do
+        {
           name: 'Name',
           type: 'simple',
+          visibility: 'Catalog, Search',
           short_description: 'Short description',
           description: 'Description',
           sku: '1234',
           price: '15.9900',
           special_price: '10.9900'
-        )
+        }
       end
 
       describe '#spree_product_params' do
@@ -33,14 +36,28 @@ module SpreeMagentoImporter
           )
         end
       end
+
+      context 'that is part of a grouped product' do
+        let(:attributes) do
+          {
+            type: 'simple',
+            visibility: 'Not Visible Individually'
+          }
+        end
+
+        describe '.new' do
+          it 'raises an ArgumentError' do
+            expect { magento_product }.to raise_error(ArgumentError)
+          end
+        end
+      end
     end
 
     context 'with a grouped product' do
-      let(:magento_product) do
-        MagentoProduct.new(
-          name: 'Name',
+      let(:attributes) do
+        {
           type: 'grouped'
-        )
+        }
       end
 
       describe '.new' do

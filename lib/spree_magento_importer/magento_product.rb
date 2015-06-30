@@ -11,6 +11,7 @@ module SpreeMagentoImporter
       end
 
       fail ArgumentError, "Unhandled type: #{@type.inspect}" unless @type == 'simple'
+      fail ArgumentError, "Unhandled visibility: #{@visibility.inspect}" unless @visibility == 'Catalog, Search'
     end
 
     def spree_product_params
