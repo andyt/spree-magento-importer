@@ -3,7 +3,10 @@ require 'spree/core/importer'
 module SpreeMagentoImporter
   # Models a MagentoProduct from a CSV hash and imports into Spree.
   class MagentoProduct
-    attr_accessor :name, :sku, :price, :shipping_category_id
+    attr_reader :name, :sku, :special_price, :price, :shipping_category_id
+    attr_reader :short_description, :description
+
+    attr_reader :product
 
     def initialize(hash)
       @hash = hash
@@ -25,16 +28,17 @@ module SpreeMagentoImporter
       {
         available_on: Time.now,
         name: name,
-        description: description,
+        description: merged_description,
         sku: sku,
-        price: price,
+        msrp: price,
+        price: special_price || price,
         shipping_category_id: shipping_category_id || 1
       }
     end
 
     # Spree doesn't have a short_description field.
-    def description
-      [@short_description, @description].join("\n\n")
+    def merged_description
+      [short_description, description].join("\n\n")
     end
 
     def product_options

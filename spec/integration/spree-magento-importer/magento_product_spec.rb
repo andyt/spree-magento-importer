@@ -8,7 +8,8 @@ module SpreeMagentoImporter
         name: 'Name',
         short_description: 'Short description',
         sku: '1234',
-        price: '10.9900'
+        price: '15.9900',
+        special_price: '10.9900'
       )
     end
 

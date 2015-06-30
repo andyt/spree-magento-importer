@@ -24,7 +24,9 @@ module SpreeMagentoImporter
               'url' => 'http://dev.freeborn.co.uk/shimano-saint-m810-m815-single-crank-arms?___store=freeborn',
               'sku' => 'FCM820A',
               'has_options' => '1',
-              'name' => 'Shimano Saint M820 / M825 Single Crank Arms'
+              'name' => 'Shimano Saint M820 / M825 Single Crank Arms',
+              'price' => '189.9900',
+              'special_price' => '151.9900'
             )
           ).and_return(magento_product)
 
