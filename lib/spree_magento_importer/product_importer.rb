@@ -19,6 +19,7 @@ module SpreeMagentoImporter
           logger.warn e.message
         else
           @backend.import(magento_product.spree_product_params, magento_product.spree_product_options)
+          logger.info "#{magento_product.sku}: imported."
         end
       end
     end
@@ -30,7 +31,7 @@ module SpreeMagentoImporter
     end
 
     def formatter
-      proc { |_severity, _datetime, _progname, msg| msg }
+      proc { |_severity, _datetime, _progname, msg| "#{msg}\n" }
     end
   end
 end

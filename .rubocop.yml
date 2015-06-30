@@ -12,7 +12,7 @@ AllCops:
 # Offense count: 2
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
-  Max: 120
+  Max: 150
 
 # Offense count: 3
 Style/Documentation:

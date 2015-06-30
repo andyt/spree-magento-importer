@@ -11,7 +11,7 @@ module SpreeMagentoImporter
       double('backend')
     end
 
-    let(:magento_product) { double('MagentoProduct') }
+    let(:magento_product) { double('MagentoProduct', sku: '1234') }
 
     describe '#import' do
       context 'for a simple product' do

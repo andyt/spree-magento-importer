@@ -1,7 +1,7 @@
 module SpreeMagentoImporter
   # Models a MagentoProduct from a CSV hash and imports into Spree.
   class MagentoProduct
-    attr_reader :hash
+    attr_reader :hash, :sku
 
     def initialize(hash)
       @hash = hash
