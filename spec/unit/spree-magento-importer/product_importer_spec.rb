@@ -4,7 +4,11 @@ require 'spree_magento_importer/product_importer'
 module SpreeMagentoImporter
   describe ProductImporter do
     let(:importer) do
-      ProductImporter.new(fixture)
+      ProductImporter.new(fixture, backend)
+    end
+
+    let(:backend) do
+      double('backend')
     end
 
     let(:magento_product) { double('MagentoProduct') }
@@ -30,7 +34,10 @@ module SpreeMagentoImporter
             )
           ).and_return(magento_product)
 
-          expect(magento_product).to receive(:import!)
+          expect(magento_product).to receive(:spree_product_params).and_return(:product_params)
+          expect(magento_product).to receive(:spree_product_options).and_return(:product_options)
+
+          expect(backend).to receive(:import).with(:product_params, :product_options)
 
           importer.import
         end

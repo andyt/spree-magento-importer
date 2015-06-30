@@ -1,5 +1,3 @@
-require 'spree/core/importer'
-
 module SpreeMagentoImporter
   # Models a MagentoProduct from a CSV hash and imports into Spree.
   class MagentoProduct
@@ -16,15 +14,7 @@ module SpreeMagentoImporter
       end
     end
 
-    def import!
-      @product = Spree::Core::Importer::Product.new(nil, product_params, product_options).create
-
-      @product.persisted?
-    end
-
-    private
-
-    def product_params
+    def spree_product_params
       {
         available_on: Time.now,
         name: name,
@@ -36,16 +26,18 @@ module SpreeMagentoImporter
       }
     end
 
-    # Spree doesn't have a short_description field.
-    def merged_description
-      [short_description, description].join("\n\n")
-    end
-
-    def product_options
+    def spree_product_options
       {
         variants_attrs: [],
         options_attrs: []
       }
+    end
+
+    private
+
+    # Spree doesn't have a short_description field.
+    def merged_description
+      [short_description, description].join("\n\n")
     end
   end
 end
