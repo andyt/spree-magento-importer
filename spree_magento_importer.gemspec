@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'spree_magento_importer/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'spree-magento-importer'
+  spec.name          = 'spree_magento_importer'
   spec.version       = SpreeMagentoImporter::VERSION
   spec.authors       = ['Andy Triggs']
   spec.email         = ['andy.triggs@gmail.com']
