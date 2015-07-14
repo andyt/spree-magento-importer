@@ -8,8 +8,9 @@ namespace :spree_magento_importer do
 
     SpreeMagentoImporter::MagentoProduct.image_path = Pathname(import_path) + 'media/catalog/product'
 
-    backend = SpreeMagentoImporter::ProductBackendCore.new
-    importer = SpreeMagentoImporter::ProductImporter.new(file, backend)
+    product_backend = SpreeMagentoImporter::ProductBackendCore.new
+    image_backend = SpreeMagentoImporter::ImageBackendCore.new
+    importer = SpreeMagentoImporter::ProductImporter.new(file, product_backend, image_backend)
 
     importer.import
   end

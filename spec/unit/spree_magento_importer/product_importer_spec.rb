@@ -1,21 +1,32 @@
 require 'spec_helper'
 require 'spree_magento_importer/product_importer'
+require 'spree_magento_importer/product_backend_core'
+require 'spree_magento_importer/image_backend_core'
 
 module SpreeMagentoImporter
   describe ProductImporter do
     let(:importer) do
-      ProductImporter.new(fixture, backend)
+      ProductImporter.new(fixture, product_backend, image_backend)
     end
 
-    let(:backend) do
-      instance_double('ProductBackendCore')
+    let(:product_backend) { instance_spy(ProductBackendCore) }
+    let(:image_backend) { instance_spy(ImageBackendCore) }
+
+    let(:magento_product) do
+      instance_double(
+        MagentoProduct,
+        sku: '1234',
+        spree_product_params: :product_params,
+        spree_product_options: :product_options,
+        image_paths: ['path/to/image.jpg']
+      )
     end
 
-    let(:magento_product) { double(MagentoProduct, sku: '1234') }
+    let(:spree_product) { double('Spree::Product') }
 
     describe '#import' do
       context 'for a simple product' do
-        let(:fixture) { File.expand_path('../../../fixtures/one_simple_product.csv', __FILE__) }
+        let(:fixture) { Pathname(__dir__).parent.parent + 'fixtures/one_simple_product.csv' }
 
         it 'creates a MagentoProduct with an appropriate hash' do
           expect(MagentoProduct).to receive(:new).with(
@@ -34,13 +45,17 @@ module SpreeMagentoImporter
             )
           ).and_return(magento_product)
 
-          expect(magento_product).to receive(:spree_product_params).and_return(:product_params)
-          expect(magento_product).to receive(:spree_product_options).and_return(:product_options)
-          expect(magento_product).to receive(:image_paths).and_return(:image_paths)
+          importer.import
+        end
 
-          expect(backend).to receive(:import).with(:product_params, :product_options, :image_paths)
+        it 'uses the backends to create a product and image' do
+          allow(MagentoProduct).to receive(:new).and_return(magento_product)
+          allow(product_backend).to receive(:import).and_return(spree_product)
 
           importer.import
+
+          expect(product_backend).to have_received(:import).with(:product_params, :product_options)
+          expect(image_backend).to have_received(:import).with(spree_product, 'path/to/image.jpg')
         end
       end
     end

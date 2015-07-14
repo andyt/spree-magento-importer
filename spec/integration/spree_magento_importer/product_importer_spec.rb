@@ -1,13 +1,15 @@
 require 'integration/spec_helper'
 require 'spree_magento_importer/product_importer'
 require 'spree_magento_importer/product_backend_core'
+require 'spree_magento_importer/image_backend_core'
 
 module SpreeMagentoImporter
-  describe 'ProductImporter with ProductBackendCore', :dummy_app, db: :isolate  do
+  describe 'ProductImporter with ProductBackendCore', :dummy_app, db: :isolate do
     before(:all) { MagentoProduct.image_path = Pathname(__dir__).parent.parent + 'fixtures/media/catalog' }
 
-    let(:backend) { SpreeMagentoImporter::ProductBackendCore.new }
-    let(:importer) { ProductImporter.new(fixture, backend) }
+    let(:product_backend) { SpreeMagentoImporter::ProductBackendCore.new }
+    let(:image_backend) { SpreeMagentoImporter::ImageBackendCore.new }
+    let(:importer) { ProductImporter.new(fixture, product_backend, image_backend) }
 
     def products(force = false)
       @products = nil if force
