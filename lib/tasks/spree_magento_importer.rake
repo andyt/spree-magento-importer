@@ -6,7 +6,7 @@ namespace :spree_magento_importer do
     import_path = Pathname(Dir.pwd) + 'tmp' + 'import'
     file = import_path + 'export_all_products.csv'
 
-    SpreeMagentoImporter::MagentoProduct.image_path = Pathname(import_path) + 'media/catalog'
+    SpreeMagentoImporter::MagentoProduct.image_path = Pathname(import_path) + 'media/catalog/product'
 
     backend = SpreeMagentoImporter::ProductBackendCore.new
     importer = SpreeMagentoImporter::ProductImporter.new(file, backend)

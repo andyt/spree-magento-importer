@@ -47,7 +47,7 @@ module SpreeMagentoImporter
       return [] unless @image && !@image.empty?
       fail 'Set MagentoProduct.image_path to the folder containing images from Magento.' unless self.class.image_path
 
-      [self.class.image_path + @image.gsub(/^\//, '')]
+      [self.class.image_path + @image.gsub(%r{^/}, '')]
     end
 
     private

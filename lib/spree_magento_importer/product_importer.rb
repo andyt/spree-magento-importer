@@ -1,7 +1,7 @@
 require 'csv'
-require 'logger'
 
 require 'spree_magento_importer/magento_product'
+require 'spree_magento_importer/logger'
 
 module SpreeMagentoImporter
   # Iterates over a Magento product export and uses a Backend class to import MagentoProduct instances into Spree.
@@ -16,22 +16,11 @@ module SpreeMagentoImporter
         begin
           magento_product = MagentoProduct.new(row.to_h)
         rescue ArgumentError => e
-          logger.warn e.message
+          Logger.warn e.message
         else
           @backend.import(magento_product.spree_product_params, magento_product.spree_product_options, magento_product.image_paths)
-          logger.info "#{magento_product.sku}: imported."
         end
       end
-    end
-
-    private
-
-    def logger
-      @logger ||= Logger.new(STDOUT).tap { |l| l.formatter = formatter }
-    end
-
-    def formatter
-      proc { |_severity, _datetime, _progname, msg| "#{msg}\n" }
     end
   end
 end

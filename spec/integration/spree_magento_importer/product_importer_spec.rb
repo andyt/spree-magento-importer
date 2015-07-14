@@ -15,12 +15,13 @@ module SpreeMagentoImporter
     end
 
     let(:product) { products.first }
+    let(:image) { product.images.first }
 
     describe '#import' do
       context 'for a simple product' do
         let(:fixture) { Pathname(__dir__) + '../../fixtures/one_simple_product.csv' }
 
-        it 'creates a Spree product with the correct name, MSRP and price' do
+        it 'creates a Spree product with the correct name, MSRP, price and image' do
           importer.import
 
           expect(products.count).to eq 1
@@ -30,6 +31,7 @@ module SpreeMagentoImporter
           expect(product.price).to eq BigDecimal.new('151.99')
 
           expect(product.images.count).to eq 1
+          expect(Pathname(image.attachment.path).exist?).to eq true
         end
 
         it 'has duplicate detection' do

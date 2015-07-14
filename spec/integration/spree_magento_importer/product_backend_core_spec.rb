@@ -4,8 +4,8 @@ require 'spree_magento_importer/product_backend_core'
 module SpreeMagentoImporter
   describe ProductBackendCore do
     let(:spree_core_importer_product) { instance_double(Spree::Core::Importer::Product) }
-    let(:product) { instance_double(Spree::Product, persisted?: true, images: []) }
-    let(:image) { File.expand_path('../../../fixtures/media/catalog/f/c/fcm825a.jpg', __FILE__) }
+    let(:product) { instance_double(Spree::Product, persisted?: true, images: [], sku: '1234') }
+    let(:image) { Pathname(__dir__).parent.parent + 'fixtures/media/catalog/f/c/fcm825a.jpg' }
 
     describe '#import' do
       it 'imports using Spree::Core::Importer::Product' do
