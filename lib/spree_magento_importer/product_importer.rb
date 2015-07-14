@@ -13,11 +13,12 @@ module SpreeMagentoImporter
     end
 
     def import
-      CSV.foreach(@file, headers: true).with_index do |row, _index|
+      CSV.foreach(@file, headers: true) do |row|
         magento_product = magento_product_from_row(row)
         next unless magento_product
 
         spree_product = @product_backend.import(magento_product.spree_product_params, magento_product.spree_product_options)
+        next unless spree_product.persisted?
 
         magento_product.image_paths.each do |image|
           @image_backend.import(spree_product, image)
