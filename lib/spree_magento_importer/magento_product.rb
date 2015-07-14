@@ -3,6 +3,16 @@ module SpreeMagentoImporter
   class MagentoProduct
     attr_reader :hash, :sku
 
+    class << self
+      attr_reader :image_path
+
+      def image_path=(path)
+        fail ArgumentError, "Path not found or not a directory: #{path}" unless Pathname(path).directory?
+
+        @image_path = Pathname(path)
+      end
+    end
+
     def initialize(hash)
       @hash = hash
 
@@ -31,6 +41,13 @@ module SpreeMagentoImporter
         variants_attrs: [],
         options_attrs: []
       }
+    end
+
+    def image_paths
+      return [] unless @image && !@image.empty?
+      fail 'Set MagentoProduct.image_path to the folder containing images from Magento.' unless self.class.image_path
+
+      [self.class.image_path + @image.gsub(/^\//, '')]
     end
 
     private

@@ -2,7 +2,9 @@ require 'spec_helper'
 require 'spree_magento_importer/magento_product'
 
 module SpreeMagentoImporter
-  describe MagentoProduct, :dummy_app, db: :isolate do
+  describe MagentoProduct do
+    before(:all) { MagentoProduct.image_path = Pathname(__dir__).parent.parent + 'fixtures' }
+
     let(:magento_product) { MagentoProduct.new(attributes) }
 
     context 'with a simple product' do
@@ -15,7 +17,8 @@ module SpreeMagentoImporter
           description: 'Description',
           sku: '1234',
           price: '15.9900',
-          special_price: '10.9900'
+          special_price: '10.9900',
+          image: '/media/catalog/f/c/fcm825a.jpg'
         }
       end
 
@@ -34,6 +37,12 @@ module SpreeMagentoImporter
             price: '10.9900',
             shipping_category_id: 1
           )
+        end
+      end
+
+      describe '#image_filepaths' do
+        it 'returns an array of image filepaths' do
+          expect(magento_product.image_paths.first.to_s).to end_with '/spec/fixtures/media/catalog/f/c/fcm825a.jpg'
         end
       end
 

@@ -18,7 +18,7 @@ module SpreeMagentoImporter
         rescue ArgumentError => e
           logger.warn e.message
         else
-          @backend.import(magento_product.spree_product_params, magento_product.spree_product_options)
+          @backend.import(magento_product.spree_product_params, magento_product.spree_product_options, magento_product.image_paths)
           logger.info "#{magento_product.sku}: imported."
         end
       end

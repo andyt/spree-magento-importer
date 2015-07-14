@@ -11,7 +11,7 @@ module SpreeMagentoImporter
       instance_double('ProductBackendCore')
     end
 
-    let(:magento_product) { double('MagentoProduct', sku: '1234') }
+    let(:magento_product) { double(MagentoProduct, sku: '1234') }
 
     describe '#import' do
       context 'for a simple product' do
@@ -36,8 +36,9 @@ module SpreeMagentoImporter
 
           expect(magento_product).to receive(:spree_product_params).and_return(:product_params)
           expect(magento_product).to receive(:spree_product_options).and_return(:product_options)
+          expect(magento_product).to receive(:image_paths).and_return(:image_paths)
 
-          expect(backend).to receive(:import).with(:product_params, :product_options)
+          expect(backend).to receive(:import).with(:product_params, :product_options, :image_paths)
 
           importer.import
         end

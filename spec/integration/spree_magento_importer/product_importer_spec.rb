@@ -4,6 +4,8 @@ require 'spree_magento_importer/product_backend_core'
 
 module SpreeMagentoImporter
   describe 'ProductImporter with ProductBackendCore', :dummy_app, db: :isolate  do
+    before(:all) { MagentoProduct.image_path = Pathname(__dir__).parent.parent + 'fixtures/media/catalog' }
+
     let(:backend) { SpreeMagentoImporter::ProductBackendCore.new }
     let(:importer) { ProductImporter.new(fixture, backend) }
 
@@ -16,7 +18,7 @@ module SpreeMagentoImporter
 
     describe '#import' do
       context 'for a simple product' do
-        let(:fixture) { File.expand_path('../../../fixtures/one_simple_product.csv', __FILE__) }
+        let(:fixture) { Pathname(__dir__) + '../../fixtures/one_simple_product.csv' }
 
         it 'creates a Spree product with the correct name, MSRP and price' do
           importer.import
@@ -26,6 +28,8 @@ module SpreeMagentoImporter
           expect(product.name).to eq 'Shimano Saint M820 / M825 Single Crank Arms'
           expect(product.msrp).to eq BigDecimal.new('189.99')
           expect(product.price).to eq BigDecimal.new('151.99')
+
+          expect(product.images.count).to eq 1
         end
 
         it 'has duplicate detection' do
