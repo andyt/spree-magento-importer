@@ -1,10 +1,10 @@
 require 'integration/spec_helper'
 require 'spree_magento_importer/product_importer'
-require 'spree_magento_importer/spree_core_backend'
+require 'spree_magento_importer/product_backend_core'
 
 module SpreeMagentoImporter
-  describe 'ProductImporter with SpreeCoreBackend', :dummy_app, db: :isolate  do
-    let(:backend) { SpreeMagentoImporter::SpreeCoreBackend.new }
+  describe 'ProductImporter with ProductBackendCore', :dummy_app, db: :isolate  do
+    let(:backend) { SpreeMagentoImporter::ProductBackendCore.new }
     let(:importer) { ProductImporter.new(fixture, backend) }
 
     def products(force = false)

@@ -4,7 +4,7 @@ namespace :spree_magento_importer do
     require 'spree_magento_importer'
 
     file = File.join(Dir.pwd, 'tmp', 'import', 'export_all_products.csv')
-    backend = SpreeMagentoImporter::SpreeCoreBackend.new
+    backend = SpreeMagentoImporter::ProductBackendCore.new
     importer = SpreeMagentoImporter::ProductImporter.new(file, backend)
 
     importer.import

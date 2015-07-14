@@ -7,4 +7,4 @@ rescue LoadError
 end
 
 require 'spree_magento_importer/product_importer'
-require 'spree_magento_importer/spree_core_backend'
+require 'spree_magento_importer/product_backend_core'

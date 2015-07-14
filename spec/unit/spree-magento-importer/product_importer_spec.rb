@@ -8,7 +8,7 @@ module SpreeMagentoImporter
     end
 
     let(:backend) do
-      double('backend')
+      instance_double('ProductBackendCore')
     end
 
     let(:magento_product) { double('MagentoProduct', sku: '1234') }
