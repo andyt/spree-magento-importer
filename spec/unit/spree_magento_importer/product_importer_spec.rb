@@ -64,14 +64,14 @@ module SpreeMagentoImporter
         context 'for Spree products that were not persisted' do
           let(:spree_product) { double('Spree::Product', persisted?: false) }
 
-          it 'does not add images' do
+          it 'uses the image backend to import images' do
             allow(MagentoProduct).to receive(:new).and_return(magento_product)
             allow(product_backend).to receive(:import).and_return(spree_product)
 
             importer.import
 
             expect(product_backend).to have_received(:import).with(:product_params, :product_options)
-            expect(image_backend).not_to have_received(:import)
+            expect(image_backend).to have_received(:import)
           end
         end
       end

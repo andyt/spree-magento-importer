@@ -6,8 +6,8 @@ module SpreeMagentoImporter
       file = File.open(image, 'r')
       image = product.images.build(attachment: file)
 
-      if image.save
-        Logger.info "#{product.sku}: created #{image.attachment_file_name}."
+      if product.images << image
+        Logger.info "#{product.sku}: attached #{image.attachment_file_name}."
       else
         Logger.warn "#{product.sku}: image errors: #{image.errors.full_messages}."
       end

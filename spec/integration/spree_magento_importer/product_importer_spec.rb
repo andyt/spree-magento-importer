@@ -16,8 +16,11 @@ module SpreeMagentoImporter
       @products ||= Spree::Product.all
     end
 
+    def image
+      products(true).first.images.first
+    end
+
     let(:product) { products.first }
-    let(:image) { product.images.first }
 
     describe '#import' do
       context 'for a simple product' do
@@ -36,11 +39,15 @@ module SpreeMagentoImporter
           expect(Pathname(image.attachment.path).exist?).to eq true
         end
 
-        it 'has duplicate detection' do
+        it 'does not create duplicate products or images' do
           importer.import
+          original_image = image
+
           importer.import
 
           expect(products.count).to eq 1
+          expect(Spree::Image.all.count).to eq 1
+          expect(image.attachment_updated_at).to eq original_image.attachment_updated_at
         end
       end
 
