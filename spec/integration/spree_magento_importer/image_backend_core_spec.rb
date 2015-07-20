@@ -9,14 +9,23 @@ module SpreeMagentoImporter
     let(:image_path) { Pathname(__dir__).parent.parent + 'fixtures/media/catalog/f/c/fcm825a.jpg' }
 
     describe '#import' do
-      it 'imports' do
-        backend = ImageBackendCore.new
-        expect(File).to receive(:open).with(image_path, 'r').and_return(:file)
-        expect(existing_images).to receive(:build).with(attachment: :file).and_return(image)
+      let(:backend) { ImageBackendCore.new }
 
+      before do
+        allow(File).to receive(:open).with(image_path, 'r').and_return(:file)
+        allow(existing_images).to receive(:build).with(attachment: :file).and_return(image)
+      end
+
+      it 'imports' do
         expect(backend.import(product, image_path)).to eq true
 
         expect(existing_images).to have_received(:<<).with(image)
+      end
+
+      it 'ignores Paperclip::Errors::NotIdentifiedByImageMagickError errors' do
+        allow(existing_images).to receive(:<<) { fail Paperclip::Errors::NotIdentifiedByImageMagickError }
+
+        expect { backend.import(product, image_path) }.not_to raise_error
       end
     end
   end
