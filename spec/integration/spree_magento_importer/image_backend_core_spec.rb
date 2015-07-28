@@ -4,7 +4,7 @@ require 'spree_magento_importer/image_backend_core'
 module SpreeMagentoImporter
   describe ImageBackendCore do
     let(:existing_images) { spy('images association') }
-    let(:product) { instance_double(Spree::Product, images: existing_images, sku: '1234') }
+    let(:product) { instance_double(Spree::Product, images: existing_images, sku: '1234', persisted?: true) }
     let(:image) { instance_spy(Spree::Image) }
     let(:image_path) { Pathname(__dir__).parent.parent + 'fixtures/media/catalog/f/c/fcm825a.jpg' }
 
@@ -26,6 +26,16 @@ module SpreeMagentoImporter
         allow(existing_images).to receive(:<<) { fail Paperclip::Errors::NotIdentifiedByImageMagickError }
 
         expect { backend.import(product, image_path) }.not_to raise_error
+      end
+
+      context 'with an unpersisted product' do
+        before do
+          allow(product).to receive(:persisted?).and_return(false)
+        end
+
+        it 'raises an ArgumentError' do
+          expect { backend.import(product, image_path) }.to raise_error ArgumentError
+        end
       end
     end
   end

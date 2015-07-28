@@ -2,8 +2,11 @@ require 'spree_magento_importer/logger'
 
 module SpreeMagentoImporter
   class ImageBackendCore
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def import(product, image_path)
       fail ArgumentError, "Expected Pathname, got #{image.inspect}" unless image_path.is_a?(Pathname)
+      fail ArgumentError, "Product #{product} has not been persisted" unless product.persisted?
 
       file = File.open(image_path, 'r')
       image = product.images.build(attachment: file)

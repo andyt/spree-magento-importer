@@ -29,9 +29,9 @@ module SpreeMagentoImporter
     end
 
     describe '#import' do
-      context 'for a simple product' do
-        let(:fixture) { Pathname(__dir__).parent.parent + 'fixtures/one_simple_product.csv' }
+      let(:fixture) { Pathname(__dir__).parent.parent + 'fixtures/one_simple_product.csv' }
 
+      context 'for a simple product' do
         it 'creates a MagentoProduct with an appropriate hash' do
           expect(MagentoProduct).to receive(:new).with(
             hash_including(
@@ -60,19 +60,19 @@ module SpreeMagentoImporter
           expect(product_backend).to have_received(:import).with(:product_params, :product_options)
           expect(image_backend).to have_received(:import).with(spree_product, 'path/to/image.jpg')
         end
+      end
 
-        context 'for Spree products that were not persisted' do
-          let(:spree_product) { double('Spree::Product', persisted?: false) }
+      context 'where the Spree product was not persisted' do
+        let(:spree_product) { double('Spree::Product', persisted?: false) }
 
-          it 'uses the image backend to import images' do
-            allow(MagentoProduct).to receive(:new).and_return(magento_product)
-            allow(product_backend).to receive(:import).and_return(spree_product)
+        it 'does not add images' do
+          allow(MagentoProduct).to receive(:new).and_return(magento_product)
+          allow(product_backend).to receive(:import).and_return(spree_product)
 
-            importer.import
+          importer.import
 
-            expect(product_backend).to have_received(:import).with(:product_params, :product_options)
-            expect(image_backend).to have_received(:import)
-          end
+          expect(product_backend).to have_received(:import).with(:product_params, :product_options)
+          expect(image_backend).not_to have_received(:import)
         end
       end
     end
