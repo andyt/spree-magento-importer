@@ -1,5 +1,5 @@
 module SpreeMagentoImporter
-  # Models a MagentoProduct from a CSV hash and imports into Spree.
+  # Models a MagentoProduct from a CSV hash.
   class MagentoProduct
     attr_reader :hash, :sku
 

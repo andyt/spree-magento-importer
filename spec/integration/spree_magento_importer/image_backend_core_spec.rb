@@ -6,7 +6,7 @@ module SpreeMagentoImporter
     let(:existing_images) { spy('images association') }
     let(:product) { instance_double(Spree::Product, images: existing_images, sku: '1234', persisted?: true) }
     let(:image) { instance_spy(Spree::Image) }
-    let(:image_path) { Pathname(__dir__).parent.parent + 'fixtures/media/catalog/f/c/fcm825a.jpg' }
+    let(:image_path) { fixture_subpath('media/catalog/f/c/fcm825a.jpg') }
 
     describe '#import' do
       let(:backend) { ImageBackendCore.new }

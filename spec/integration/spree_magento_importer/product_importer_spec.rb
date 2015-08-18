@@ -5,7 +5,7 @@ require 'spree_magento_importer/image_backend_core'
 
 module SpreeMagentoImporter
   describe 'ProductImporter with ProductBackendCore', :dummy_app, db: :isolate do
-    before(:all) { MagentoProduct.image_path = Pathname(__dir__).parent.parent + 'fixtures/media/catalog' }
+    before(:all) { MagentoProduct.image_path = fixture_subpath('media/catalog') }
 
     let(:product_backend) { SpreeMagentoImporter::ProductBackendCore.new }
     let(:image_backend) { SpreeMagentoImporter::ImageBackendCore.new }
@@ -24,7 +24,7 @@ module SpreeMagentoImporter
 
     describe '#import' do
       context 'for a simple product' do
-        let(:fixture) { Pathname(__dir__) + '../../fixtures/one_simple_product.csv' }
+        let(:fixture) { fixture_subpath('one_simple_product.csv') }
 
         it 'creates a Spree product with the correct name, MSRP, price and image' do
           importer.import
@@ -52,7 +52,7 @@ module SpreeMagentoImporter
       end
 
       context 'for a grouped product' do
-        let(:fixture) { File.expand_path('../../../fixtures/one_grouped_product.csv', __FILE__) }
+        let(:fixture) { fixture_subpath('one_grouped_product.csv') }
 
         it 'handles exceptions and imports no products' do
           importer.import

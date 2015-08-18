@@ -29,7 +29,7 @@ module SpreeMagentoImporter
     end
 
     describe '#import' do
-      let(:fixture) { Pathname(__dir__).parent.parent + 'fixtures/one_simple_product.csv' }
+      let(:fixture) { fixture_subpath('one_simple_product.csv') }
 
       context 'for a simple product' do
         it 'creates a MagentoProduct with an appropriate hash' do

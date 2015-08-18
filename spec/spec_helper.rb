@@ -4,3 +4,11 @@ RSpec.configure do |config|
   config.mock_with :rspec
   config.raise_errors_for_deprecations!
 end
+
+#
+# Helpers
+#
+
+def fixture_subpath(subpath)
+  Pathname(__dir__) + 'fixtures' + subpath
+end
