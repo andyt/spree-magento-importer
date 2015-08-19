@@ -1,0 +1,13 @@
+id,name,parent_id
+2,"Freeborn",1
+4,"Frames",2
+5,"Components",2
+6,"Clothing",2
+7,"Accessories",2
+18,"Bikes",2
+304,"Featured",2
+102,"Sale",2
+16,"Hardtail frames",4
+24,"Full suspension frames",4
+25,"Road bars",26
+26,"Bars",5

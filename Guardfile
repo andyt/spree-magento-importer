@@ -35,6 +35,6 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch(rspec.spec_files)
 
   # Ruby files
-  ruby = dsl.ruby
-  dsl.watch_spec_files_for(ruby.lib_files)
+  watch(%r{^lib\/(.+)\.rb$})             { |_m| 'spec/unit/#{m[1]}_spec.rb' }
+  watch(%r{^lib\/.+\.rb$})                       { 'spec/integration' }
 end

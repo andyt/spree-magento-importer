@@ -9,3 +9,6 @@ end
 require 'spree_magento_importer/product_importer'
 require 'spree_magento_importer/product_backend_core'
 require 'spree_magento_importer/image_backend_core'
+
+require 'spree_magento_importer/category_importer'
+require 'spree_magento_importer/taxonomy_backend_core'
